@@ -42,7 +42,7 @@ const SuperVisorDammagePassportAdd = () => {
   const { profileId, governorateId, officeId } = profile || {};
 
   const isSupervisor =
-    roles.includes("Supervisor") || roles === "I.T" || roles === "MainSupervisor";
+    roles.includes("Supervisor") || roles.includes("I.T") || roles.includes("MainSupervisor") ;
   const [selectedOffice, setSelectedOffice] = useState(null);
   const [selectedGovernorate, setSelectedGovernorate] = useState(null);
 
@@ -147,6 +147,7 @@ const SuperVisorDammagePassportAdd = () => {
 
   // -----------------------------
   // 3) Handle form submission (Multipart)
+  //sss
   // -----------------------------
   const handleFormSubmit = async (values) => {
     if (isSubmitting) return;
