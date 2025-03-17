@@ -43,7 +43,7 @@ const SuperVisorDammagePassportAdd = () => {
   const { profileId, governorateId, officeId } = profile || {};
 
   const isSupervisor =
-    roles.includes("Supervisor") || roles === "I.T" || roles === "MainSupervisor";
+    roles.includes("Supervisor") || roles.includes("I.T") || roles.includes("MainSupervisor") ;
   const [selectedOffice, setSelectedOffice] = useState(null);
   const [selectedGovernorate, setSelectedGovernorate] = useState(null);
 
@@ -148,6 +148,7 @@ const SuperVisorDammagePassportAdd = () => {
 
   // -----------------------------
   // 3) Handle form submission (Multipart)
+  //sss
   // -----------------------------
   const handleFormSubmit = async (values) => {
     if (isSubmitting) return;
@@ -155,16 +156,20 @@ const SuperVisorDammagePassportAdd = () => {
 
     try {
       // Build a FormData object to send everything in one request
-      const formData = new FormData();
+       const formData = new FormData();
 
-      // Add text fields
-      formData.append("PassportNumber", values.passportNumber);
-      formData.append(
-        "Date",
-        values.date
-          ? values.date.format("YYYY-MM-DDTHH:mm:ss.SSSZ")
-          : moment().format("YYYY-MM-DDTHH:mm:ss.SSSZ")
-      );
+    // Add text fields
+    formData.append("PassportNumber", values.passportNumber);
+    
+    // Add 3 hours to selected date or use current time + 3 hours
+    const selectedDate = values.date 
+      ? moment(values.date).add(6, 'hours')
+      : moment().add(6, 'hours');
+      
+    formData.append(
+      "Date",
+      selectedDate.format("YYYY-MM-DDTHH:mm:ss.SSSZ")
+    );
       formData.append("DamagedTypeId", values.damagedTypeId);
       formData.append("OfficeId", isSupervisor ? officeId : selectedOffice);
       formData.append("GovernorateId", isSupervisor ? governorateId : selectedGovernorate);
